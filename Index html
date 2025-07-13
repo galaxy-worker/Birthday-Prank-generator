@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prank App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Registration Interface -->
+    <div id="register-interface" style="display: none;">
+        <h1>Register to Use Prank App</h1>
+        <form id="register-form">
+            <label for="reg-name">Name</label>
+            <input type="text" id="reg-name" placeholder="Enter your name" required>
+            
+            <label for="reg-email">Email</label>
+            <input type="email" id="reg-email" placeholder="Enter your email" required>
+            
+            <label for="reg-password">Password</label>
+            <input type="password" id="reg-password" placeholder="Enter a password" required>
+            
+            <p>Pay Rs. 100 to use the app. Click below to make the payment.</p>
+            <a href="YOUR_PAYHERE_PAYMENT_LINK" target="_blank" id="payment-link">Make Payment</a>
+            
+            <button type="submit">Submit Registration</button>
+        </form>
+        <p id="reg-message"></p>
+    </div>
+
+    <!-- Sender Interface -->
+    <div id="sender-interface" style="display: none;">
+        <h1>Prank App Generator</h1>
+        <label for="victim-name">Who has a birthday?</label>
+        <input type="text" id="victim-name" placeholder="Enter name">
+        
+        <label for="prank-message">Select Prank Message</label>
+        <select id="prank-message">
+            <option value="Your mobile restoring and all data clearing 😱">Your mobile restoring and all data clearing 😱</option>
+            <option value="Your gallery photos sharing to another server 🚨">Your gallery photos sharing to another server 🚨</option>
+            <option value="Your device is hacked! Data leaking now! ⚠️">Your device is hacked! Data leaking now! ⚠️</option>
+        </select>
+
+        <label for="voice-type">Select Voice</label>
+        <select id="voice-type">
+            <option value="personalized">Personalized Voice</option>
+            <option value="female">Female Voice</option>
+            <option value="male">Male Voice</option>
+        </select>
+
+        <button onclick="generateLink()">Generate Link</button>
+        <p id="generated-link"></p>
+        <button id="copy-link" style="display: none;" onclick="copyLink()">Copy Link</button>
+    </div>
+
+    <!-- Victim Interface -->
+    <div id="victim-interface" style="display: none;">
+        <div id="notification-overlay"></div>
+        <div id="cracked-screen" style="display: none;"></div>
+        <div id="loading-animation" style="display: none;">Loading...</div>
+        <div id="final-message" style="display: none;"></div>
+    </div>
+
+    <audio id="siren-sound" src="YOUR_SIREN_AUDIO_URL"></audio>
+    <audio id="teck-sound" src="YOUR_TECK_AUDIO_URL"></audio>
+    <audio id="damage-voice" src="YOUR_DAMAGE_VOICE_URL"></audio>
+    <audio id="prank-voice" src="YOUR_PRANK_VOICE_URL"></audio>
+    <audio id="birthday-music" src="YOUR_BIRTHDAY_MUSIC_URL"></audio>
+
+    <script src="script.js"></script>
+</body>
+</html>
