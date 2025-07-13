@@ -1,0 +1,90 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #000;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#register-interface, #sender-interface, #victim-interface {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+}
+
+input, select, button, a {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 80%;
+    max-width: 300px;
+    text-decoration: none;
+    color: #fff;
+    background: #ff4444;
+    border: none;
+    cursor: pointer;
+}
+
+#notification-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+}
+
+.notification {
+    background: #ff4444;
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    animation: slide-in 0.5s ease-out;
+}
+
+#cracked-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('YOUR_CRACKED_SCREEN_IMAGE_URL') center/cover;
+    z-index: 2000;
+}
+
+#loading-animation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2em;
+    color: #fff;
+    z-index: 3000;
+}
+
+#final-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    text-align: center;
+    z-index: 4000;
+}
+
+@keyframes slide-in {
+    from { transform: translateY(-100%); }
+    to { transform: translateY(0); }
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
