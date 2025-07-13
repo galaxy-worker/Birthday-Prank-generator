@@ -1,0 +1,162 @@
+// Registration Logic
+const registerInterface = document.getElementById('register-interface');
+const senderInterface = document.getElementById('sender-interface');
+const victimInterface = document.getElementById('victim-interface');
+const registerForm = document.getElementById('register-form');
+const regMessage = document.getElementById('reg-message');
+
+// Check if user is registered
+const urlParams = new URLSearchParams(window.location.search);
+const token = urlParams.get('token');
+
+if (!token && !urlParams.get('prank')) {
+    registerInterface.style.display = 'block';
+} else if (token) {
+    // Validate token (simplified, you can use a backend for real validation)
+    if (token === 'VALID_TOKEN') { // Replace with actual token validation
+        senderInterface.style.display = 'block';
+    } else {
+        registerInterface.style.display = 'block';
+        regMessage.innerText = 'Invalid or expired token. Please register and make payment.';
+    }
+} else if (urlParams.get('prank')) {
+    victimInterface.style.display = 'block';
+    runPrank();
+}
+
+// Registration Form Submission
+registerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('reg-name').value;
+    const email = document.getElementById('reg-email').value;
+    const password = document.getElementById('reg-password').value;
+
+    // Simulate sending registration data
+    regMessage.innerText = `Registration submitted for ${name}. Please complete the payment of Rs. 100 via the link above. You'll receive an access token via email after verification.`;
+    
+    // In a real app, send form data to a backend (e.g., Google Forms, Firebase, or email)
+    console.log(`Name: ${name}, Email: ${email}, Password: ${password}`);
+});
+
+// Sender Interface Logic
+function generateLink() {
+    const victimName = document.getElementById('victim-name').value;
+    const prankMessage = document.getElementById('prank-message').value;
+    const voiceType = document.getElementById('voice-type').value;
+
+    if (!victimName) {
+        alert('Please enter the victim\'s name!');
+        return;
+    }
+
+    const link = `https://YOUR_USERNAME.github.io/prank-app/?prank=1&name=${encodeURIComponent(victimName)}&msg=${encodeURIComponent(prankMessage)}&voice=${voiceType}`;
+    document.getElementById('generated-link').innerText = link;
+    document.getElementById('copy-link').style.display = 'block';
+}
+
+function copyLink() {
+    const link = document.getElementById('generated-link').innerText;
+    navigator.clipboard.writeText(link);
+    alert('Link copied!');
+}
+
+// Victim Interface Logic (Prank)
+function runPrank() {
+    document.body.requestFullscreen();
+
+    // Prevent back button
+    window.history.pushState(null, null, window.location.href);
+    window.onpopstate = function () {
+        window.history.pushState(null, null, window.location.href);
+    };
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const victimName = urlParams.get('name');
+    const prankMessage = urlParams.get('msg');
+    const voiceType = urlParams.get('voice');
+    let damageVoice = document.getElementById('damage-voice');
+    let prankVoice = document.getElementById('prank-voice');
+
+    if (voiceType === 'personalized') {
+        damageVoice = new Audio('YOUR_PERSONALIZED_DAMAGE_VOICE_URL');
+        prankVoice = new Audio('YOUR_PERSONALIZED_PRANK_VOICE_URL');
+    }
+
+    const notifications = [
+        'System Alert: Critical error detected! ⚠️',
+        prankMessage,
+        'Device malfunction imminent! 😱'
+    ];
+
+    let currentNotification = 0;
+    const overlay = document.getElementById('notification-overlay');
+    const sirenSound = document.getElementById('siren-sound');
+    const teckSound = document.getElementById('teck-sound');
+    const birthdayMusic = document.getElementById('birthday-music');
+
+    // Show notifications
+    function showNotification() {
+        if (currentNotification < notifications.length) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.innerText = notifications[currentNotification];
+            overlay.appendChild(notif);
+            navigator.vibrate([200, 100, 200]);
+            sirenSound.play();
+            setTimeout(() => notif.remove(), 2000);
+            currentNotification++;
+            setTimeout(showNotification, 3000);
+        } else {
+            // Play damage voice 3 times
+            let voiceCount = 0;
+            function playDamageVoice() {
+                if (voiceCount < 3) {
+                    damageVoice.play();
+                    voiceCount++;
+                    setTimeout(playDamageVoice, 2000);
+                } else {
+                    startFlicker();
+                }
+            }
+            playDamageVoice();
+        }
+    }
+
+    // Flicker and cracked screen
+    function startFlicker() {
+        document.body.style.animation = 'flicker 0.2s infinite';
+        navigator.vibrate([200, 100, 200, 100, 200]);
+        setTimeout(() => {
+            document.getElementById('cracked-screen').style.display = 'block';
+            teckSound.play();
+            setTimeout(() => {
+                document.body.style.animation = '';
+                document.getElementById('cracked-screen').style.display = 'none';
+                showLoading();
+            }, 2000);
+        }, 3000);
+    }
+
+    // Loading animation
+    function showLoading() {
+        const loading = document.getElementById('loading-animation');
+        loading.style.display = 'block';
+        loading.innerText = prankMessage;
+        setTimeout(() => {
+            loading.style.display = 'none';
+            showFinalMessage();
+        }, 3000);
+    }
+
+    // Final message
+    function showFinalMessage() {
+        const finalMessage = document.getElementById('final-message');
+        finalMessage.style.display = 'block';
+        finalMessage.innerHTML = `Don't fear about that 😚😁✋<br>This is a prank!<br>Happy Birthday ${victimName}! 🎉`;
+        prankVoice.play();
+        birthdayMusic.play();
+    }
+
+    // Start prank
+    setTimeout(showNotification, 1000);
+}
